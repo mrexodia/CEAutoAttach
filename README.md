@@ -14,3 +14,5 @@ The following command line will automatically launch and attach [Cheat Engine](h
 ```
 CEAutoAttach.exe 6996
 ```
+
+![x64dbg](https://i.imgur.com/bJydNYU.gif)
