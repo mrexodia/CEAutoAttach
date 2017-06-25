@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <shellapi.h>
+#include <shlwapi.h>
 
 int CALLBACK WinMain(
     _In_ HINSTANCE hInstance,
@@ -8,6 +9,12 @@ int CALLBACK WinMain(
     _In_ int       nCmdShow
 )
 {
+    //Change the current directory to the module directory.
+    wchar_t szModuleDirectory[MAX_PATH];
+    GetModuleFileNameW(GetModuleHandleW(0), szModuleDirectory, _countof(szModuleDirectory));
+    PathRemoveFileSpecW(szModuleDirectory);
+    SetCurrentDirectoryW(szModuleDirectory);
+
     //Extract the LUA autorun script.
     HANDLE hFile = CreateFileW(L"autorun\\CEAutoAttach.lua", GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
     if(hFile != INVALID_HANDLE_VALUE)
@@ -28,5 +35,6 @@ int CALLBACK WinMain(
     //Execute Cheat Engine.
     ShellExecuteW(NULL, L"open", L"Cheat Engine.exe", NULL, NULL, SW_SHOWDEFAULT);
 
-    return 0;
+    //Manually exit CEAutoAttach.
+    ExitProcess(0);
 }
